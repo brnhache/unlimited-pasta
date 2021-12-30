@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "unlimited-pasta": {
+      "hosting": {
+        "unlimited-pasta": [
+          "unlimited-pasta"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "unlimited-pasta"
+  }
+}

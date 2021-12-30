@@ -1,0 +1,26 @@
+<mat-form-field>
+  <p>Title</p>
+  <input matInput cdkFocusInitial [(ngModel)]="data.posting.title" />
+</mat-form-field>
+<mat-form-field>
+  <p>Body</p>
+  <textarea [(ngModel)]="data.posting.body">{{data.posting.body}}</textarea>
+</mat-form-field>
+<div mat-dialog-actions>
+  <button
+    mat-button
+    [mat-dialog-close]="{ posting: data.posting }"
+  >
+    OK
+  </button>
+  <button
+    *ngIf="data.enableDelete"
+    mat-fab
+    color="primary"
+    aria-label="Delete"
+    [mat-dialog-close]="{ posting: data.posting, delete: true }"
+  >
+    <mat-icon>delete</mat-icon>
+  </button>
+  <button mat-button (click)="cancel()">Cancel</button>
+</div>

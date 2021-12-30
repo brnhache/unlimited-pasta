@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Posting } from './posting';
 
 @Component({
   selector: 'app-posting',
@@ -7,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PostingComponent implements OnInit {
 
+  @Input() posting: Posting | null = null;
+  @Output() edit = new EventEmitter<Posting>();
   constructor() { }
 
   ngOnInit(): void {

@@ -1,1 +1,4 @@
-<p>posting works!</p>
+<mat-card class="item" *ngIf="posting">
+    <mat-card-title>{{ posting.title }}</mat-card-title>
+    <mat-card-content>{{ posting.body }}</mat-card-content>
+</mat-card>
