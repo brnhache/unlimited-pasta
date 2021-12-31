@@ -3,6 +3,9 @@ import { Posting } from './posting/posting';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { PostingDialogComponent } from './posting-dialog/posting-dialog.component';
 import { PostingDialogResult } from './posting-dialog/posting-dialog.component';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Observable } from 'rxjs';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -10,17 +13,10 @@ import { PostingDialogResult } from './posting-dialog/posting-dialog.component';
 })
 export class AppComponent {
   title = 'unlimited-pasta';
-  postList: Posting[] = [
-    {
-      title: 'First Post',
-      body: 'This is the first post...'
-    },
-    {
-      title: 'Second Post',
-      body: 'This is the second post...'
-    }
-  ]
-  constructor(private dialog: MatDialog) {}
+  postList = this.store.collection('postings').valueChanges({ idField: 'id' }) as Observable <Posting[]>;
+
+  constructor(private dialog: MatDialog, private store: AngularFirestore ) { }
+
   editPosting(posting: Posting): void { 
     const dialogRef = this.dialog.open(PostingDialogComponent, {
       width: '270px',
@@ -33,12 +29,10 @@ export class AppComponent {
       if (!result) {
         return;
       }
-      const dataList = this.postList;
-      const postingIndex = dataList.indexOf(posting);
       if (result.delete) {
-        dataList.splice(postingIndex, 1);
+        this.store.collection('postings').doc(posting.id).delete();
       } else {
-        dataList[postingIndex] = posting;
+        this.store.collection('postings').doc(posting.id).update(posting);
       }
     })
   }
@@ -51,6 +45,6 @@ export class AppComponent {
     });
     dialogRef
     .afterClosed()
-    .subscribe((result: PostingDialogResult) => this.postList.push(result.posting));
+    .subscribe((result: PostingDialogResult) => this.store.collection('postings').add(result.posting));
   }
 }

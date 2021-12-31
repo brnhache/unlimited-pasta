@@ -3,4 +3,4 @@
   <span>Unlimited Pasta</span>
   <button (click)="addPosting()" mat-button><mat-icon>add</mat-icon>Add Posting</button>
 </mat-toolbar>
-<app-posting *ngFor="let posting of postList" [posting]="posting" (click)="editPosting(posting)"></app-posting>
+<app-posting *ngFor="let posting of postList | async" [posting]="posting" (click)="editPosting(posting)"></app-posting>
