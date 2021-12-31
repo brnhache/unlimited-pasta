@@ -1,4 +1,4 @@
-export const environment = {
+export const env = {
   firebase: {
     projectId: 'unlimited-pasta',
     appId: '1:584687733400:web:dae9d96ee547a8db3fdeed',
