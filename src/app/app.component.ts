@@ -13,7 +13,10 @@ import { Observable } from 'rxjs';
 })
 export class AppComponent {
   title = 'unlimited-pasta';
-  postList = this.store.collection('postings').valueChanges({ idField: 'id' }) as Observable <Posting[]>;
+  postList = new Observable <Posting[]>();
+  ngOnInit(){
+    this.postList = this.store.collection('postings').valueChanges({ idField: 'id' }) as Observable <Posting[]>;    
+  }
 
   constructor(private dialog: MatDialog, private store: AngularFirestore ) { }
 
@@ -29,12 +32,14 @@ export class AppComponent {
       if (!result) {
         return;
       }
+      const post = this.store.collection('postings').doc(posting.id);
       if (result.delete) {
-        this.store.collection('postings').doc(posting.id).delete();
+        post.delete();
       } else {
-        this.store.collection('postings').doc(posting.id).update(posting);
+        post.update(posting);
       }
     })
+    this.ngOnInit();
   }
   addPosting(): void {
     const dialogRef = this.dialog.open(PostingDialogComponent, {
